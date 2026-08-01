@@ -1,11 +1,10 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import Home from '../views/Home.vue'
+import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
 import Opsi2 from '../views/Opsi2.vue'
 import Opsi3 from '../views/Opsi3.vue'
 import Opsi4 from '../views/Opsi4.vue'
 import Opsi5 from '../views/Opsi5.vue'
 
-const routes = [
+const routes: RouteRecordRaw[] = [
   {
     path: '/',
     name: 'Home',
