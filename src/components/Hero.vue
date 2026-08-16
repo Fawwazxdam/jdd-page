@@ -1,76 +1,113 @@
-<script setup lang="ts">
-import { Calendar, MapPin, ArrowDown } from '@lucide/vue'
-
-const eventDate = '15 - 17 Agustus 2026'
-const eventLocation = 'Jakarta Convention Center'
-</script>
-
 <template>
-  <section class="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
-    <div class="absolute inset-0">
-      <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-[#18bcbc]/20 rounded-full blur-3xl"></div>
-      <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#1a4d8d]/20 rounded-full blur-3xl"></div>
-      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#0b3a4c]/10 rounded-full blur-3xl"></div>
-    </div>
+  <section
+    id="home"
+    class="relative bg-jd-bg text-white min-h-screen py-20 px-6 font-sans flex items-center overflow-hidden"
+  >
+    <!-- Background Image -->
+    <div
+      class="absolute inset-0 bg-cover bg-center opacity-40"
+      :style="{ backgroundImage: `url(${heroImg})` }"
+    ></div>
 
-    <div class="relative z-10 max-w-5xl mx-auto px-4 text-center">
-      <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-full text-sm text-gray-600 dark:text-gray-300 mb-8">
-        <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
-        Tiket Early Bird Tersedia
+    <div class="container mx-auto max-w-7xl relative">
+      <div class="flex flex-col lg:flex-row justify-between items-end">
+        <!-- KIRI: Teks & Tombol -->
+        <div class="w-full lg:w-3/5 z-10">
+          <!-- Top Badge -->
+          <div class="inline-flex items-center px-5 py-2 rounded-full bg-[#031c22] border border-jd-cyan/20 mb-8 reveal">
+            <span class="w-2 h-2 rounded-full bg-jd-cyan mr-3"></span>
+            <span class="text-jd-cyan text-xs font-bold tracking-[0.15em] uppercase">
+              East Java Premier Tech Gathering &middot; Oct 25, 2026
+            </span>
+          </div>
+
+          <!-- Main Headline -->
+          <h1
+            class="font-montserrat text-5xl md:text-[5rem] lg:text-[5.5rem] font-black leading-[1.05] tracking-tight uppercase mb-8 reveal"
+            style="transition-delay: 0.1s"
+          >
+            <span class="text-[#f0f6f9]">SEA OF TECH TALENT.</span>
+            <br />
+            <span class="text-[#f0f6f9]">GOES TO </span>
+            <span class="text-jd-cyan">PASURUAN</span>
+          </h1>
+
+          <!-- Description -->
+          <p
+            class="text-gray-300 text-lg md:text-xl leading-relaxed max-w-2xl mb-12 font-medium reveal-right"
+            style="transition-delay: 0.2s"
+          >
+            Konferensi eksklusif bagi para arsitek teknologi, developer, dan pemimpin industri Jawa Timur. Membangun masa depan digital dengan standar keunggulan kelas dunia.
+          </p>
+
+          <!-- Action Buttons -->
+          <div class="flex flex-wrap items-center gap-6 reveal" style="transition-delay: 0.3s">
+            <AppButton :glow="true">
+              DAPATKAN TIKET
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 19L20 5m0 0H9m11 0v11"></path>
+              </svg>
+            </AppButton>
+
+            <AppButton variant="outline">
+              JADI SPONSORSHIP
+              <span class="text-lg leading-none">→</span>
+            </AppButton>
+          </div>
+        </div>
+
+        <!-- KANAN: Mascot & Countdown -->
+        <div class="w-full lg:w-2/5 flex flex-col items-end relative z-10">
+          <div class="relative w-[350px] h-[350px] mb-[-19px] z-20 flex justify-end mr-8 reveal-scale" style="transition-delay: 0.3s">
+            <img
+              :src="mascotImg"
+              alt="Mascot"
+              class="w-full h-full object-contain drop-shadow-[0_0_30px_rgba(24,188,188,0.35)]"
+            />
+          </div>
+
+          <!-- Countdown Card -->
+          <div
+            class="w-full bg-gradient-to-br from-[#09222c] to-[#051116] border-4 border-jd-cyan/30 rounded-2xl p-8 lg:p-10 shadow-[0_0_40px_rgba(24,188,188,0.1)] relative z-10 reveal"
+            style="transition-delay: 0.4s"
+          >
+            <p class="text-gray-300 text-center text-xs tracking-[0.2em] uppercase font-semibold mb-8">
+              Counting down to launch
+            </p>
+
+            <div class="flex justify-between items-center px-2">
+              <template v-for="(item, index) in countdown" :key="index">
+                <div class="flex flex-col items-center flex-1">
+                  <span class="text-5xl md:text-6xl font-light text-[#f0f6f9] tracking-tight">
+                    {{ item.value }}
+                  </span>
+                  <span class="text-gray-500 text-[10px] md:text-xs tracking-[0.2em] uppercase mt-3 font-semibold">
+                    {{ item.label }}
+                  </span>
+                </div>
+
+                <div v-if="index < countdown.length - 1" class="text-jd-cyan text-3xl font-light pb-6 px-1 md:px-3">
+                  :
+                </div>
+              </template>
+            </div>
+          </div>
+        </div>
       </div>
-
-      <h1 class="text-6xl sm:text-7xl md:text-8xl font-black tracking-tight mb-6">
-        <span class="bg-gradient-to-r from-gray-900 via-gray-700 to-gray-500 dark:from-white dark:via-gray-200 dark:to-gray-400 bg-clip-text text-transparent">Jatim</span>
-        <br />
-        <span class="bg-gradient-to-r from-[#18bcbc] via-[#1a4d8d] to-[#0b3a4c] bg-clip-text text-transparent">Developer Day</span>
-      </h1>
-
-      <p class="text-lg sm:text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-4">
-        Konferensi teknologi terbesar untuk developer Jawa Timur.
-        3 hari penuh insight, workshop, dan networking.
-      </p>
-
-      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 text-sm text-gray-500 dark:text-gray-400 mb-10">
-        <div class="flex items-center gap-2">
-          <Calendar class="w-4 h-4" />
-          {{ eventDate }}
-        </div>
-        <span class="hidden sm:block">•</span>
-        <div class="flex items-center gap-2">
-          <MapPin class="w-4 h-4" />
-          {{ eventLocation }}
-        </div>
-      </div>
-
-      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-        <a href="#register"
-          class="px-8 py-4 bg-gradient-to-r from-[#18bcbc] to-[#0b3a4c] rounded-full font-semibold text-lg hover:opacity-90 transition-opacity shadow-lg shadow-[#18bcbc]/25 text-white">
-          Daftar Sekarang
-        </a>
-        <a href="#speakers"
-          class="px-8 py-4 border border-gray-300 dark:border-white/10 rounded-full font-semibold text-lg hover:bg-gray-100 dark:hover:bg-white/5 transition-colors text-gray-600 dark:text-gray-300">
-          Lihat Pembicara
-        </a>
-      </div>
-
-      <div class="mt-16 grid grid-cols-3 gap-8 max-w-md mx-auto">
-        <div>
-          <div class="text-3xl font-black bg-gradient-to-r from-[#18bcbc] to-[#0b3a4c] bg-clip-text text-transparent">50+</div>
-          <div class="text-sm text-gray-500 mt-1">Pembicara</div>
-        </div>
-        <div>
-          <div class="text-3xl font-black bg-gradient-to-r from-[#18bcbc] to-[#0b3a4c] bg-clip-text text-transparent">3</div>
-          <div class="text-sm text-gray-500 mt-1">Hari</div>
-        </div>
-        <div>
-          <div class="text-3xl font-black bg-gradient-to-r from-[#18bcbc] to-[#0b3a4c] bg-clip-text text-transparent">3K+</div>
-          <div class="text-sm text-gray-500 mt-1">Peserta</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-      <ArrowDown class="w-6 h-6 text-gray-400 dark:text-gray-500" />
     </div>
   </section>
 </template>
+
+<script setup>
+import { ref } from 'vue'
+import AppButton from './ui/AppButton.vue'
+import heroImg from '../assets/hero-img.png'
+import mascotImg from '../assets/mascot-double.png'
+
+const countdown = ref([
+  { value: '83', label: 'Days' },
+  { value: '14', label: 'Hours' },
+  { value: '16', label: 'Mins' },
+  { value: '43', label: 'Secs' },
+])
+</script>

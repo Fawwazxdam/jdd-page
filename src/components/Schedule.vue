@@ -1,86 +1,81 @@
-<script setup lang="ts">
-import { ref } from 'vue'
-import { Clock } from '@lucide/vue'
-
-const activeDay = ref(1)
-
-const days = [
-  {
-    day: 1,
-    date: '15 Agustus',
-    label: 'Workshop Day',
-    events: [
-      { time: '09:00 - 12:00', title: 'Workshop: Building Microservices with Go', speaker: 'Rudi Hartono' },
-      { time: '13:00 - 16:00', title: 'Workshop: Cloud Native with Kubernetes', speaker: 'Maya Putri' },
-      { time: '16:00 - 18:00', title: 'Workshop: Advanced TypeScript Patterns', speaker: 'Andi Wijaya' },
-    ],
-  },
-  {
-    day: 2,
-    date: '16 Agustus',
-    label: 'Conference Day',
-    events: [
-      { time: '09:00 - 10:00', title: 'Opening Keynote: The Future of Software Engineering', speaker: 'Rudi Hartono' },
-      { time: '10:30 - 11:30', title: 'Microservices Architecture in 2026', speaker: 'Sari Dewi' },
-      { time: '13:00 - 14:00', title: 'DevOps Best Practices at Scale', speaker: 'Budi Santoso' },
-      { time: '14:30 - 15:30', title: 'AI/ML in Production Systems', speaker: 'Rina Sari' },
-      { time: '16:00 - 17:00', title: 'Frontend Performance Optimization', speaker: 'Andi Wijaya' },
-    ],
-  },
-  {
-    day: 3,
-    date: '17 Agustus',
-    label: 'Hackathon & Closing',
-    events: [
-      { time: '09:00 - 15:00', title: 'Hackathon: Build Solutions for Jawa Timur', speaker: 'Semua Peserta' },
-      { time: '15:30 - 16:30', title: 'Hackathon Demo & Judging', speaker: 'Panel Juri' },
-      { time: '17:00 - 18:00', title: 'Closing Ceremony & Awards', speaker: 'Panitia JDD' },
-    ],
-  },
-]
-</script>
-
 <template>
-  <section id="schedule" class="py-24 relative bg-gray-50 dark:bg-transparent">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-16">
-        <p class="text-sm font-semibold text-[#18bcbc] tracking-wider uppercase mb-3">Jadwal</p>
-        <h2 class="text-4xl sm:text-5xl font-black tracking-tight text-gray-900 dark:text-white mb-4">
-          3 Hari
-          <span class="bg-gradient-to-r from-[#18bcbc] to-[#0b3a4c] bg-clip-text text-transparent">Penuh Aktivitas</span>
-        </h2>
-      </div>
+  <Section id="agenda">
+    <SectionHeader
+      number="03"
+      label="The Symposium"
+      description="Agenda lengkap symposium dari registrasi hingga sesi workshop bersama para praktisi industri."
+    >
+      AGENDA & <span class="text-jd-cyan">SESSIONS</span>
+    </SectionHeader>
 
-      <div class="flex flex-wrap justify-center gap-2 mb-12">
-        <button v-for="d in days" :key="d.day" @click="activeDay = d.day"
-          :class="[
-            'px-6 py-3 rounded-full text-sm font-semibold transition-all duration-300',
-            activeDay === d.day
-              ? 'bg-gradient-to-r from-[#18bcbc] to-[#0b3a4c] text-white shadow-lg shadow-[#18bcbc]/25'
-              : 'bg-white dark:bg-white/5 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white border border-gray-200 dark:border-white/5'
-          ]">
-          Day {{ d.day }} — {{ d.label }}
-        </button>
-      </div>
+    <!-- AGENDA LIST -->
+    <div class="flex flex-col gap-8">
+      <div v-for="group in agendaGroups" :key="group.category" class="flex flex-col">
+        <!-- Category Bar -->
+        <div class="bg-jd-cyan text-black font-bold text-xs tracking-[0.2em] uppercase py-3 px-6 rounded-md mb-2">
+          {{ group.category }}
+        </div>
 
-      <div class="max-w-3xl mx-auto">
-        <template v-for="d in days" :key="d.day">
-          <div v-if="activeDay === d.day" class="space-y-4">
-            <p class="text-center text-gray-500 text-sm mb-6">{{ d.date }}</p>
-            <div v-for="(event, idx) in d.events" :key="idx"
-              class="flex gap-6 p-5 bg-white dark:bg-white/[0.02] border border-gray-200 dark:border-white/5 rounded-xl hover:border-[#18bcbc]/20 hover:shadow-md transition-all duration-300">
-              <div class="flex items-center gap-2 text-sm text-gray-500 w-36 shrink-0 pt-0.5">
-                <Clock class="w-4 h-4 text-[#18bcbc]" />
-                {{ event.time }}
-              </div>
-              <div class="flex-1">
-                <h4 class="font-semibold text-gray-900 dark:text-white mb-1">{{ event.title }}</h4>
-                <p class="text-sm text-gray-500 dark:text-gray-400">{{ event.speaker }}</p>
+        <!-- Session Items -->
+        <div class="flex flex-col">
+          <div
+            v-for="(session, sessionIndex) in group.sessions"
+            :key="sessionIndex"
+            class="flex flex-col md:flex-row items-start md:items-center py-6 px-4 md:px-6 border-b border-gray-900 hover:bg-[#030d12] transition-colors duration-300 gap-6 reveal"
+            :style="{ transitionDelay: `${(sessionIndex % 3) * 0.1}s` }"
+          >
+            <!-- Left: Time & Location -->
+            <div class="w-full md:w-1/4 flex flex-col md:text-right flex-shrink-0">
+              <span class="text-jd-cyan font-medium tracking-wider text-sm md:text-base">
+                {{ session.time }}
+              </span>
+              <span class="text-gray-500 text-[10px] tracking-[0.15em] uppercase mt-1.5 font-semibold">
+                {{ session.location }}
+              </span>
+            </div>
+
+            <!-- Middle: Session Details -->
+            <div class="w-full md:w-auto flex-1 flex flex-col">
+              <span class="text-gray-500 text-[10px] tracking-[0.15em] uppercase mb-1.5 font-bold">
+                {{ session.type }}
+              </span>
+              <h3 class="text-white font-bold text-lg md:text-xl leading-tight">
+                {{ session.title }}
+              </h3>
+              <span v-if="session.speaker" class="text-gray-400 text-xs mt-2 font-medium">
+                {{ session.speaker }}
+              </span>
+            </div>
+
+            <!-- Right: Speaker Thumbnail -->
+            <div class="hidden md:flex w-16 flex-shrink-0 justify-end">
+              <div class="w-12 h-12 rounded-xl bg-gray-800 border border-gray-700 overflow-hidden relative">
+                <div class="absolute inset-0 bg-gray-600/50 mix-blend-luminosity"></div>
+                <svg class="w-full h-full text-gray-500 opacity-50 p-2" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                </svg>
               </div>
             </div>
           </div>
-        </template>
+        </div>
       </div>
     </div>
-  </section>
+
+    <!-- DOWNLOAD BUTTON -->
+    <div class="mt-16 flex justify-center reveal-scale">
+      <AppButton variant="outline-fill">
+        Download Rundown
+        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+        </svg>
+      </AppButton>
+    </div>
+  </Section>
 </template>
+
+<script setup>
+import Section from './ui/Section.vue'
+import SectionHeader from './ui/SectionHeader.vue'
+import AppButton from './ui/AppButton.vue'
+import { agendaGroups } from '../data/content'
+</script>
