@@ -1,5 +1,5 @@
 <template>
-  <section class="bg-jd-bg-deep py-12 border-t border-b border-gray-900 overflow-hidden">
+  <section id="partners" class="bg-jd-bg-deep py-12 border-t border-b border-gray-900 overflow-hidden">
     <div class="container mx-auto px-6 mb-6">
       <h3 class="text-center text-gray-500 text-xs font-bold tracking-[0.2em] uppercase">
         Community Partners

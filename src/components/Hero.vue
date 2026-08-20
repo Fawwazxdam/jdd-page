@@ -1,7 +1,7 @@
 <template>
   <section
     id="home"
-    class="relative bg-jd-bg text-white min-h-screen py-20 px-6 font-sans flex items-center overflow-hidden"
+    class="relative bg-jd-bg text-white min-h-screen pt-32 pb-20 px-6 font-sans flex items-center overflow-hidden lg:pt-20"
   >
     <!-- Background Image -->
     <div
@@ -9,7 +9,7 @@
       :style="{ backgroundImage: `url(${heroImg})` }"
     ></div>
 
-    <div class="container mx-auto max-w-7xl relative">
+    <div class="container mx-auto relative">
       <div class="flex flex-col lg:flex-row justify-between items-end">
         <!-- KIRI: Teks & Tombol -->
         <div class="w-full lg:w-3/5 z-10">
@@ -17,7 +17,7 @@
           <div class="inline-flex items-center px-5 py-2 rounded-full bg-[#031c22] border border-jd-cyan/20 mb-8 reveal">
             <span class="w-2 h-2 rounded-full bg-jd-cyan mr-3"></span>
             <span class="text-jd-cyan text-xs font-bold tracking-[0.15em] uppercase">
-              East Java Premier Tech Gathering &middot; Oct 25, 2026
+              {{ badgeText }}
             </span>
           </div>
 
@@ -26,10 +26,10 @@
             class="font-montserrat text-5xl md:text-[5rem] lg:text-[5.5rem] font-black leading-[1.05] tracking-tight uppercase mb-8 reveal"
             style="transition-delay: 0.1s"
           >
-            <span class="text-[#f0f6f9]">SEA OF TECH TALENT.</span>
+            <span class="text-[#f0f6f9]">{{ titleLine1 }}</span>
             <br />
-            <span class="text-[#f0f6f9]">GOES TO </span>
-            <span class="text-jd-cyan">PASURUAN</span>
+            <span class="text-[#f0f6f9]">{{ titleLine2 }}</span>
+            <span class="text-jd-cyan">{{ titleAccent }}</span>
           </h1>
 
           <!-- Description -->
@@ -37,20 +37,20 @@
             class="text-gray-300 text-lg md:text-xl leading-relaxed max-w-2xl mb-12 font-medium reveal-right"
             style="transition-delay: 0.2s"
           >
-            Konferensi eksklusif bagi para arsitek teknologi, developer, dan pemimpin industri Jawa Timur. Membangun masa depan digital dengan standar keunggulan kelas dunia.
+            {{ description }}
           </p>
 
           <!-- Action Buttons -->
           <div class="flex flex-wrap items-center gap-6 reveal" style="transition-delay: 0.3s">
-            <AppButton :glow="true">
-              DAPATKAN TIKET
+            <AppButton :glow="true" :href="primaryHref">
+              {{ primaryLabel }}
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 19L20 5m0 0H9m11 0v11"></path>
               </svg>
             </AppButton>
 
-            <AppButton variant="outline">
-              JADI SPONSORSHIP
+            <AppButton variant="outline" :href="secondaryHref">
+              {{ secondaryLabel }}
               <span class="text-lg leading-none">→</span>
             </AppButton>
           </div>
@@ -99,15 +99,58 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import AppButton from './ui/AppButton.vue'
 import heroImg from '../assets/hero-img.png'
 import mascotImg from '../assets/mascot-double.png'
 
-const countdown = ref([
-  { value: '83', label: 'Days' },
-  { value: '14', label: 'Hours' },
-  { value: '16', label: 'Mins' },
-  { value: '43', label: 'Secs' },
-])
+const props = defineProps({
+  badgeText: {
+    type: String,
+    default: 'East Java Premier Tech Gathering · Oct 25, 2026',
+  },
+  titleLine1: { type: String, default: 'Jatim Tech Hub' },
+  titleLine2: { type: String, default: 'Inclusive Tech ' },
+  titleAccent: { type: String, default: 'Real Impact' },
+  description: {
+    type: String,
+    default:
+      'Konferensi eksklusif bagi para arsitek teknologi, developer, dan pemimpin industri Jawa Timur. Membangun masa depan digital dengan standar keunggulan kelas dunia.',
+  },
+  primaryLabel: { type: String, default: 'DAPATKAN TIKET' },
+  primaryHref: { type: String, default: '#tickets' },
+  secondaryLabel: { type: String, default: 'JADI MEDIA PARTNER' },
+  secondaryHref: {
+    type: String,
+    default: import.meta.env.VITE_MEDIA_PARTNER_FORM_URL || '#',
+  },
+})
+
+const eventDate = new Date(import.meta.env.VITE_EVENT_DATE).getTime()
+const now = ref(Date.now())
+let timer = null
+
+const countdown = computed(() => {
+  const diff = Math.max(0, eventDate - now.value)
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24))
+  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24)
+  const mins = Math.floor((diff / (1000 * 60)) % 60)
+  const secs = Math.floor((diff / 1000) % 60)
+  return [
+    { value: String(days).padStart(2, '0'), label: 'Days' },
+    { value: String(hours).padStart(2, '0'), label: 'Hours' },
+    { value: String(mins).padStart(2, '0'), label: 'Mins' },
+    { value: String(secs).padStart(2, '0'), label: 'Secs' },
+  ]
+})
+
+onMounted(() => {
+  timer = setInterval(() => {
+    now.value = Date.now()
+  }, 1000)
+})
+
+onUnmounted(() => {
+  clearInterval(timer)
+})
 </script>

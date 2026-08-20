@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted } from "vue";
+import { useReveal } from "../composables/useReveal";
 import Navbar from "../components/Navbar.vue";
 import Hero from "../components/Hero.vue";
 import CommunityPartners from "../components/CommunityPartners.vue";
@@ -14,24 +14,7 @@ import Sponsors from "../components/Sponsors.vue";
 import Cta from "../components/Cta.vue";
 import Footer from "../components/Footer.vue";
 
-onMounted(() => {
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("revealed");
-          observer.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.15, rootMargin: "0px 0px -40px 0px" }
-  );
-  document
-    .querySelectorAll(".reveal, .reveal-left, .reveal-right, .reveal-scale")
-    .forEach((el) => {
-      observer.observe(el);
-    });
-});
+useReveal();
 </script>
 
 <template>

@@ -48,22 +48,12 @@
         <!-- Nav Pills -->
         <div class="flex flex-wrap gap-3">
           <a
-            href="#about"
+            v-for="link in navLinks"
+            :key="link.href"
+            :href="link.href"
             class="px-6 py-2 rounded-full border border-gray-700/60 text-[10px] sm:text-xs font-semibold tracking-widest text-gray-400 hover:text-white hover:border-white uppercase transition duration-300"
           >
-            Tentang
-          </a>
-          <a
-            href="#speakers"
-            class="px-6 py-2 rounded-full border border-gray-700/60 text-[10px] sm:text-xs font-semibold tracking-widest text-gray-400 hover:text-white hover:border-white uppercase transition duration-300"
-          >
-            Speaker
-          </a>
-          <a
-            href="#agenda"
-            class="px-6 py-2 rounded-full border border-gray-700/60 text-[10px] sm:text-xs font-semibold tracking-widest text-gray-400 hover:text-white hover:border-white uppercase transition duration-300"
-          >
-            Agenda
+            {{ link.label }}
           </a>
         </div>
       </div>
@@ -114,4 +104,15 @@
 <script setup>
 import bgFooter from "../assets/bg-footer.png";
 import jddLogo from "../assets/jdd-logo.svg";
+
+const props = defineProps({
+  navLinks: {
+    type: Array,
+    default: () => [
+      { label: 'Tentang', href: '#about' },
+      { label: 'Speaker', href: '#speakers' },
+      { label: 'Agenda', href: '#agenda' },
+    ],
+  },
+})
 </script>

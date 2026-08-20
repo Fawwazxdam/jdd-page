@@ -22,7 +22,7 @@
         class="text-[#98b6c2] text-lg md:text-xl font-medium leading-relaxed max-w-3xl mb-12 reveal"
         style="transition-delay: 0.3s"
       >
-        Bergabunglah bersama 1,000+ developer dan tech leader Jawa Timur dalam acara yang mendefinisikan ulang masa depan teknologi.
+        Bergabunglah bersama 500+ developer dan tech leader Jawa Timur dalam acara yang mendefinisikan ulang masa depan teknologi.
       </p>
 
       <!-- Action Buttons -->
@@ -30,13 +30,13 @@
         class="flex flex-col sm:flex-row items-center justify-center gap-6 w-full sm:w-auto reveal"
         style="transition-delay: 0.4s"
       >
-        <AppButton :glow="true" class="w-full sm:w-auto">
-          DAPATKAN TIKET
+        <AppButton :glow="true" :href="primaryHref" class="w-full sm:w-auto">
+          {{ primaryLabel }}
           <span class="text-lg leading-none">&rarr;</span>
         </AppButton>
 
-        <AppButton variant="outline" class="w-full sm:w-auto">
-          JADI SPONSORSHIP
+        <AppButton variant="outline" :href="secondaryHref" class="w-full sm:w-auto">
+          {{ secondaryLabel }}
           <span class="text-lg leading-none">&rarr;</span>
         </AppButton>
       </div>
@@ -47,4 +47,11 @@
 <script setup>
 import Section from './ui/Section.vue'
 import AppButton from './ui/AppButton.vue'
+
+defineProps({
+  primaryLabel: { type: String, default: 'DAPATKAN TIKET' },
+  primaryHref: { type: String, default: '#tickets' },
+  secondaryLabel: { type: String, default: 'JADI SPONSORSHIP' },
+  secondaryHref: { type: String, default: '#sponsors' },
+})
 </script>
