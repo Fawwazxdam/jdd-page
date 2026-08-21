@@ -64,9 +64,9 @@
 <script setup>
 import Section from './ui/Section.vue'
 import SectionHeader from './ui/SectionHeader.vue'
-import img1 from '../assets/img-1.jpg'
-import img2 from '../assets/img-2.jpg'
-import img3 from '../assets/img-3.jpg'
-import img4 from '../assets/img-4.jpg'
-import img5 from '../assets/img-5.jpg'
+import img1 from '../assets/img-1.webp'
+import img2 from '../assets/img-2.webp'
+import img3 from '../assets/img-3.webp'
+import img4 from '../assets/img-4.webp'
+import img5 from '../assets/img-5.webp'
 </script>
