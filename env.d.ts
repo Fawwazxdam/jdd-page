@@ -6,6 +6,7 @@ interface ImportMetaEnv {
   readonly VITE_APP_TYPE?: 'landingpage' | 'speakers'
   readonly VITE_SPEAKER_FORM_URL?: string
   readonly VITE_MEDIA_PARTNER_FORM_URL?: string
+  readonly VITE_USE_API_DATA?: string
 }
 
 interface ImportMeta {
